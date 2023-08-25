@@ -11,7 +11,7 @@
                 background: ;
             ">
             <p class="text-center mt-1 font-semibold">
-                {{currentTitlePage}}
+                {{ currentTitlePage }}
             </p>
         </div>
 
@@ -22,8 +22,20 @@
                 cursor: pointer;
                 background: ;
                 font-size: 130%;
-            ">
+            " v-if="isForderPage">
             <i class="fa fa-search" aria-hidden="true"></i>
+        </div>
+        <div class="pt-1 text-center" style="
+                width: 40px;
+                height: 40px;
+                float: left;
+                cursor: pointer;
+                background: ;
+                font-size: 130%;
+            " v-if="!isForderPage">
+            <router-link :to="{ name: 'ForderEdit' }">
+                <i class="fa fa-cog" aria-hidden="true"></i>
+            </router-link>
         </div>
         <div style="clear: both"></div>
     </div>
@@ -41,6 +53,9 @@ export default {
     computed: {
         currentTitlePage() {
             return this.$route?.meta?.title || "";
+        },
+        isForderPage() {
+            return this.$route?.meta?.title == "File List" ? false : true;
         }
     }
 }

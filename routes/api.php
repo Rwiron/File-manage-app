@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\ForderController;
+use App\Http\Controllers\Api\FileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,5 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::post('/forder/create',[ForderController::class,'create']);
-
+Route::get('/forder/edit/{id}',[ForderController::class,'edit']);
+Route::post('/forder/edit/{id}',[ForderController::class,'update']);
+Route::get('/forder/delete/{id}',[ForderController::class,'delete']);
 Route::get('/home/get-data',[HomeController::class,'getDataHome']);
+Route::get('/file/get-data/{id}',[FileController::class,'getData']);

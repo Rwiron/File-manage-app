@@ -1,12 +1,15 @@
 <template>
     <div class="grid grid-cols-4 gap-1 p-2" style="background: ">
         <div class="forder-icon flex flex-col items-center" v-for="folder in folders">
-            <img src="/images/icons/wiron.svg" style="max-width: 50%; max-height: 50%" />
-            <p class="text-center mt-0.5" style="font-size: 60%; font-weight: 600">
-                {{ folder.name }}
-            </p>
+            <router-link :to="{ name: 'FileList', params: { id: folder.id } }">
+                <img src="/images/icons/wiron.svg" style="max-width: 50%; max-height: 50%" />
+                <p class="text-center mt-0.5" style="font-size: 60%; font-weight: 600">
+                    {{ folder.name }}
+                </p>
+            </router-link>
         </div>
     </div>
+    
     <div class="px-1 mt-4">
         <p class="px-2 mb-2" style="font-size: 95%; font-weight: 500">
             Recent File uploaded
@@ -29,7 +32,7 @@
             </div>
         </div>
     </div>
-    <router-link :to="{name:'ForderCreate'}">
+    <router-link :to="{ name: 'ForderCreate' }">
         <div class="text-center" style="
             width: 50px;
             height: 50px;
