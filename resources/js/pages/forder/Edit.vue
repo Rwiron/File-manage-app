@@ -48,11 +48,11 @@ export default {
                 Swal.fire(error?.response?.data?.message);
             }
         },
-        async deleteForder() {
+        async deleteForder() { 
             try {
                 const { data } = await axios.get('/api/forder/delete/' + this.$route.params.id);
                 if (data) {
-                    this.$router.push({ name: 'Home' });
+                    this.$router.push({name: 'Home'});
                 }
             } catch (error) {
                 //console.log(error);
