@@ -15,4 +15,42 @@ class FileController extends Controller
         return $files;
 
     }
+
+    public function upload($id,Request $request) {
+        // for taking any Files object 
+        $request -> validate([
+            'file' => 'required|mimes:png,jpg,pdf,html,pptx,xlsx,docx|max:2048',
+        ]);
+        $file = $request ->file('file');
+        $filename = time() .  '_' . $file -> getClientOriginalName();
+        $file -> storeAs('upload',$filename, 'public');
+
+        DB :: table('files')->insert([
+            'name' => $file -> getClientOriginalName(),
+            'name_generate' => $filename,
+            'type' => $file -> guessExtension(),
+            'size' => $file -> getSize(),
+            'forder_id' => $id,
+        ]);
+    }
+
+    public function download ($id) {
+        $file = DB::table('files')->where('id',$id) -> first();
+        $path = storage_path('app/public/upload/'. $file->name_generate);
+        return response() -> download($path);
+    }
+
+    public function delete ($id) {
+        $file = DB::table('files')->where('id',$id) -> first();
+        unlink(storage_path('app/public/upload/'. $file->name_generate));
+
+        $result = DB::table('files')->where('id',$id)->delete();
+        // it will return result 
+        return $result;
+    }
+
+    public function search (Request $request) {
+        $files = DB::table('files')->where('name','like','%'.$request->keyword.'%')->get();
+        return $files;
+    }
 }

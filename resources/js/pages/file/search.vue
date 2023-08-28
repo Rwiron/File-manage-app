@@ -1,5 +1,9 @@
 <template>
     <div class="px-2">
+        <input type="text" v-model="keyword"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+    </div>
+    <div class="px-2">
         <div class="file-item mt-0" style="display: flex;" v-for="file in files">
             <div class="image-item pt-2" style="width: 52px;height 67px;background:;">
                 <img :src="`/images/icons/${file.type}.svg`" />
@@ -13,67 +17,34 @@
                 </p>
             </div>
             <div class="pt-2" style="width: 20px; height: 67px; background: ">
-                <i @click = "$event => download(file.id,file.name)" class="fa fa-cloud-download text-blue-600 mt-1" aria-hidden="true"></i>
-                <i @click = "$event =>deleteFile(file.id)" class="fa fa-trash text-red-600 mt-2" aria-hidden="true" style="margin-left: 2px"></i>
+                <i @click="$event => download(file.id, file.name)" class="fa fa-cloud-download text-blue-600 mt-1"
+                    aria-hidden="true"></i>
+                <i @click="$event => deleteFile(file.id)" class="fa fa-trash text-red-600 mt-2" aria-hidden="true"
+                    style="margin-left: 2px"></i>
             </div>
         </div>
     </div>
-    <input type="file" ref="uploadFile" @change="handleFileChange" style="display: none;">
-    <div @click = "openDialog" class="text-center" style="
-            width: 50px;
-            height: 50px;
-            background: blue;
-            border-radius: 50%;
-            position: fixed;
-            right: 5px;
-            bottom: 5vh;
-            cursor: pointer;
-        ">
-            <i class="fa fa-cloud-upload" aria-hidden="true" style="font-size: 140%; line-height: 48px; color: white"></i>
-        </div>
 </template>
 <script>
 export default {
     data() {
         return {
-            files: [],
-            selectedFile: null,
-
+            keyword: '',
+            files: []
         }
     },
-    created: function () {
-        this.getData();
-    },
     watch: {
-        selectedFile() {
-            this.uploadFile();
+        keyword() {
+            this.search();
         }
     },
     methods: {
-        async getData() {
+        async search() {
             try {
-                const { data } = await axios.get('/api/file/get-data/' + this.$route.params.id);
+                const { data } = await axios.post('/api/file/search', { 'keyword': this.keyword });
                 this.files = data;
             } catch (error) {
-                console.log(error)
-            }
-        },
-        handleFileChange(event){
-            this.selectedFile = event.target.files[0];
-        },
-        openDialog() {
-            const elem = this.$refs.uploadFile;
-            elem.click()
-        },
-        async uploadFile() {
-            const formData = new FormData();
-            formData.append('file',this.selectedFile);
-            try {
-                const { data } = await axios.post('/api/file/upload/' + this.$route.params.id, formData);
-                this.getData ();
-            } catch (error) {
                 console.log(error);
-                Swal.fire(error?.response?.data?.message);
             }
         },
         download(id ,name) {
@@ -94,7 +65,7 @@ export default {
             try {
                 const { data } = await axios.get('/api/file/delete/'+id);
                 if (data) {
-                    this.getData();
+                    this.search();
                 }
             } catch (error) {
                 //console.log(error);

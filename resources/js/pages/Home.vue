@@ -9,7 +9,7 @@
             </router-link>
         </div>
     </div>
-    
+
     <div class="px-1 mt-4">
         <p class="px-2 mb-2" style="font-size: 95%; font-weight: 500">
             Recent File uploaded
@@ -27,8 +27,10 @@
                 </p>
             </div>
             <div class="pt-2" style="width: 20px; height: 67px; background: ">
-                <i class="fa fa-cloud-download text-blue-600 mt-1" aria-hidden="true"></i>
-                <i class="fa fa-trash text-red-600 mt-2" aria-hidden="true" style="margin-left: 2px"></i>
+                <i @click="$event => download(file.id, file.name)" class="fa fa-cloud-download text-blue-600 mt-1"
+                    aria-hidden="true"></i>
+                <i @click="$event => deleteFile(file.id)" class="fa fa-trash text-red-600 mt-2" aria-hidden="true"
+                    style="margin-left: 2px"></i>
             </div>
         </div>
     </div>
@@ -71,6 +73,31 @@ export default {
                 console.log(error);
             }
         },
+        download(id, name) {
+            axios.get('/api/file/download/' + id, { responseType: 'blob' })
+                .then(response => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', name);
+                    document.body.appendChild(link);
+                    link.click();
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        },
+        async deleteFile(id) {
+            try {
+                const { data } = await axios.get('/api/file/delete/' + id);
+                if (data) {
+                    this.getData();
+                }
+            } catch (error) {
+                //console.log(error);
+                Swal.fire(error?.response?.data?.message);
+            }
+        }
     },
 };
 </script>

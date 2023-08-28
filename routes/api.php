@@ -28,3 +28,8 @@ Route::post('/forder/edit/{id}',[ForderController::class,'update']);
 Route::get('/forder/delete/{id}',[ForderController::class,'delete']);
 Route::get('/home/get-data',[HomeController::class,'getDataHome']);
 Route::get('/file/get-data/{id}',[FileController::class,'getData']);
+
+Route::post('/file/upload/{id}',[FileController::class,'upload']);
+Route::get('/file/download/{id}',[FileController::class,'download']);
+Route::get('/file/delete/{id}',[FileController::class,'delete']);
+Route::post('/file/search/',[FileController::class,'search']);

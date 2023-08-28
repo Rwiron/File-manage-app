@@ -23,11 +23,13 @@
                 background: ;
                 font-size: 130%;
             " v-if="isForderPage">
-            <i class="fa fa-search" aria-hidden="true"></i>
+            <router-link :to="{ name: 'FileSearch' }">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </router-link>
         </div>
         <div class="pt-1 text-center" style="
                 width: 40px;
-                height: 40px;
+                height: 40px; 
                 float: left;
                 cursor: pointer;
                 background: ;

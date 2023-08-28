@@ -24,7 +24,7 @@ export default {
         }
     },
     created: function () {
-        this.getForderName();
+        this.getForderName()    
     },
     methods: {
         //function to create folder and save them to database

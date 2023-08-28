@@ -4,6 +4,7 @@ import forderCreate from './pages/forder/create.vue';
 import forderEdit from './pages/forder/Edit.vue';
 import fileList from './pages/forder/FileList.vue';
 
+import fileSearch from './pages/file/search.vue';
 
 
 const routes= [
@@ -30,6 +31,12 @@ const routes= [
         name: 'ForderEdit',
         component: forderEdit,
         meta: {title: 'Forder Edit'}
+    },
+    {
+        path: '/file/search',
+        name: 'FileSearch',
+        component: fileSearch,
+        meta: {title: 'File Search'}
     },
 ]
 
