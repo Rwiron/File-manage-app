@@ -30,6 +30,7 @@ Route::get('/home/get-data',[HomeController::class,'getDataHome']);
 Route::get('/file/get-data/{id}',[FileController::class,'getData']);
 
 Route::post('/file/upload/{id}',[FileController::class,'upload']);
-Route::get('/file/download/{id}',[FileController::class,'download']);
+//Route::get('/file/download/{id}',[FileController::class,'download']);
+Route::get('/file/download/{id}/{action?}', [FileController::class, 'download']);
 Route::get('/file/delete/{id}',[FileController::class,'delete']);
 Route::post('/file/search/',[FileController::class,'search']);
